@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CO2 AI Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg: #00ffd5;
+            --card: rgba(255,255,255,0.06);
+            --text: #e2e8f0;
+            --primary: #38bdf8;
+            --accent: #000000;
+        }
+
+        [data-theme="light"] {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+        }
+
+        body {
+            font-family: Inter;
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1100px;
+        }
+
+        /* Glass Card */
+        .card-ui {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Header */
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            opacity: 0.7;
+        }
+
+        /* Inputs */
+        .form-control {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+        }
+
+        /* Button */
+        .btn-ai {
+            background: linear-gradient(135deg, #fc0000, #9da2d2);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* Result */
+        .result {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Loader */
+        .loader {
+            display: none;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #000000;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toggle */
+        .toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<div class="toggle" onclick="toggleTheme()">🌙 / ☀️</div>
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="card-ui mb-4">
+        <div class="title">🚗 CO₂ Emission AI Dashboard</div>
+        <div class="subtitle">Professional Machine Learning Prediction System</div>
+    </div>
+
+    <!-- INPUT -->
+    <div class="card-ui mb-4">
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <input id="engine" class="form-control" placeholder="Engine Size">
+            </div>
+
+            <div class="col-md-6">
+                <input id="cylandr" class="form-control" placeholder="Cylinders">
+            </div>
+
+            <div class="col-md-4">
+                <input id="fuelcity" class="form-control" placeholder="Fuel City">
+            </div>
+
+            <div class="col-md-4">
+                <input id="fuelwy" class="form-control" placeholder="Fuel Highway">
+            </div>
+
+            <div class="col-md-4">
+                <input id="fuelcomb" class="form-control" placeholder="Fuel Combined">
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+            <button class="btn-ai" onclick="predictCO2()">Predict CO₂</button>
+        </div>
+
+        <!-- LOADING -->
+        <div id="loader" class="loader mt-3">
+            <div class="spinner"></div>
+            <p>AI is analyzing...</p>
+        </div>
+
+        <!-- RESULT -->
+        <div class="text-center mt-4">
+            <div>Predicted Emission</div>
+            <div id="result" class="result">--</div>
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+    <div class="row g-3">
+
+        <div class="col-md-6">
+            <div class="card-ui">
+                <canvas id="chart1"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-ui">
+                <canvas id="chart2"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
